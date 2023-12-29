@@ -1,6 +1,20 @@
 # Schallplatten - Datenbank für Freunde
 ## Based on CodeIgniter 4
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### What is CodeIgniter?
 
 CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
