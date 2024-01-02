@@ -13,11 +13,10 @@ class News extends BaseController {
         $data = [
             'news' => $model->getNews(),
             'title' => 'News archive',
+            'page' => 'news/index',
         ];
 
-        return view('templates/header', $data)
-            . view('news/index')
-            . view('templates/footer');
+        return view('templates/template', $data);
     }
 
     public function show($slug = null) {
@@ -30,24 +29,26 @@ class News extends BaseController {
         }
 
         $data['title'] = $data['news']['title'];
+        $data['page'] = 'news/view';
 
-        return view('templates/header', $data)
-            . view('news/view')
-            . view('templates/footer');
+        return view('templates/template', $data);
     }
 
     public function new() {
         helper('form');
 
-        return view('templates/header', ['title' => 'Create a news item'])
-            . view('news/create')
-            . view('templates/footer');
+        $data['title'] = 'Create a news item';
+        $data['page'] = 'news/create';
+
+        return view('templates/template', $data);
     }
 
     public function create() {
         helper('form');
 
         $data = $this->request->getPost(['title', 'body']);
+
+
 
         if (!$this->validateData($data, [
             'title' => 'required|max_length[255]|min_length[3]',
@@ -67,8 +68,10 @@ class News extends BaseController {
             'body' => $post['body']
         ]);
 
-        return view('templates/header', ['title' => 'Create a news item'])
-            . view('news/success')
-            . view('templates/footer');
+
+        $data['title'] = 'Create a news item';
+        $data['page'] = 'news/success';
+
+        return view('templates/template', $data);
     }
 }

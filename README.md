@@ -1,5 +1,5 @@
 # Schallplatten - Datenbank für Freunde
-## Based on CodeIgniter 4
+## Based on CodeIgniter 4 mit Codeigniter Shield als User-Verwaltung
 
 
 ### Wofür das Ganze?

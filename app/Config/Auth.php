@@ -17,18 +17,17 @@ use CodeIgniter\Shield\Config\Auth as ShieldAuth;
 use CodeIgniter\Shield\Authentication\Actions\ActionInterface;
 use CodeIgniter\Shield\Authentication\AuthenticatorInterface;
 use CodeIgniter\Shield\Authentication\Authenticators\AccessTokens;
-use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
-use CodeIgniter\Shield\Authentication\Authenticators\JWT;
+/* use CodeIgniter\Shield\Authentication\Authenticators\HmacSha256;
+use CodeIgniter\Shield\Authentication\Authenticators\JWT; */
 use CodeIgniter\Shield\Authentication\Authenticators\Session;
 use CodeIgniter\Shield\Authentication\Passwords\CompositionValidator;
 use CodeIgniter\Shield\Authentication\Passwords\DictionaryValidator;
 use CodeIgniter\Shield\Authentication\Passwords\NothingPersonalValidator;
-use CodeIgniter\Shield\Authentication\Passwords\PwnedValidator;
+/* use CodeIgniter\Shield\Authentication\Passwords\PwnedValidator; */
 use CodeIgniter\Shield\Authentication\Passwords\ValidatorInterface;
 use CodeIgniter\Shield\Models\UserModel;
 
-class Auth extends ShieldAuth
-{
+class Auth extends ShieldAuth {
     /**
      * ////////////////////////////////////////////////////////////////////
      * AUTHENTICATION
@@ -48,7 +47,8 @@ class Auth extends ShieldAuth
     public array $views = [
         'login'                       => '\CodeIgniter\Shield\Views\login',
         'register'                    => '\CodeIgniter\Shield\Views\register',
-        'layout'                      => '\CodeIgniter\Shield\Views\layout',
+        #'layout'                      => '\CodeIgniter\Shield\Views\layout',
+        'layout'                      => '\App\Views\shield\layout',
         'action_email_2fa'            => '\CodeIgniter\Shield\Views\email_2fa_show',
         'action_email_2fa_verify'     => '\CodeIgniter\Shield\Views\email_2fa_verify',
         'action_email_2fa_email'      => '\CodeIgniter\Shield\Views\Email\email_2fa_email',
@@ -98,7 +98,7 @@ class Auth extends ShieldAuth
      * @var array<string, class-string<ActionInterface>|null>
      */
     public array $actions = [
-        'register' => null,
+        'register' => \CodeIgniter\Shield\Authentication\Actions\EmailActivator::class,
         'login'    => null,
     ];
 
@@ -116,7 +116,7 @@ class Auth extends ShieldAuth
     public array $authenticators = [
         'tokens'  => AccessTokens::class,
         'session' => Session::class,
-        'hmac'    => HmacSha256::class,
+        /* 'hmac'    => HmacSha256::class, */
         // 'jwt'     => JWT::class,
     ];
 
@@ -143,7 +143,7 @@ class Auth extends ShieldAuth
     public array $authenticationChain = [
         'session',
         'tokens',
-        'hmac',
+        /* 'hmac', */
         // 'jwt',
     ];
 
@@ -281,7 +281,7 @@ class Auth extends ShieldAuth
      */
     public array $validFields = [
         'email',
-        // 'username',
+        /* 'username', */
     ];
 
     /**
@@ -435,8 +435,7 @@ class Auth extends ShieldAuth
      * Returns the URL that a user should be redirected
      * to after a successful login.
      */
-    public function loginRedirect(): string
-    {
+    public function loginRedirect(): string {
         $session = session();
         $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
 
@@ -447,8 +446,7 @@ class Auth extends ShieldAuth
      * Returns the URL that a user should be redirected
      * to after they are logged out.
      */
-    public function logoutRedirect(): string
-    {
+    public function logoutRedirect(): string {
         $url = setting('Auth.redirects')['logout'];
 
         return $this->getUrl($url);
@@ -458,8 +456,7 @@ class Auth extends ShieldAuth
      * Returns the URL the user should be redirected to
      * after a successful registration.
      */
-    public function registerRedirect(): string
-    {
+    public function registerRedirect(): string {
         $url = setting('Auth.redirects')['register'];
 
         return $this->getUrl($url);
@@ -469,8 +466,7 @@ class Auth extends ShieldAuth
      * Returns the URL the user should be redirected to
      * if force_reset identity is set to true.
      */
-    public function forcePasswordResetRedirect(): string
-    {
+    public function forcePasswordResetRedirect(): string {
         $url = setting('Auth.redirects')['force_reset'];
 
         return $this->getUrl($url);
@@ -480,8 +476,7 @@ class Auth extends ShieldAuth
      * Returns the URL the user should be redirected to
      * if permission denied.
      */
-    public function permissionDeniedRedirect(): string
-    {
+    public function permissionDeniedRedirect(): string {
         $url = setting('Auth.redirects')['permission_denied'];
 
         return $this->getUrl($url);
@@ -491,8 +486,7 @@ class Auth extends ShieldAuth
      * Returns the URL the user should be redirected to
      * if group denied.
      */
-    public function groupDeniedRedirect(): string
-    {
+    public function groupDeniedRedirect(): string {
         $url = setting('Auth.redirects')['group_denied'];
 
         return $this->getUrl($url);
@@ -505,8 +499,7 @@ class Auth extends ShieldAuth
      *
      * @param string $url an absolute URL or a named route or just URI path
      */
-    protected function getUrl(string $url): string
-    {
+    protected function getUrl(string $url): string {
         // To accommodate all url patterns
         $final_url = '';
 
