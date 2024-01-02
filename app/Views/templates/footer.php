@@ -1,3 +1,3 @@
-<em>&copy; 2022</em>
+<em>&copy; <?= date('Y') ?></em>
 </body>
 </html>
